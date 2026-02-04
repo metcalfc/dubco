@@ -44,6 +44,43 @@ class CreateLinkRequest(BaseModel):
         return {k: v for k, v in self.model_dump().items() if v is not None}
 
 
+class UpdateLinkRequest(BaseModel):
+    """Request model for updating a link."""
+
+    url: str | None = Field(None, description="The destination URL")
+    domain: str | None = Field(None, description="The short link domain")
+    key: str | None = Field(None, description="The short link slug")
+    externalId: str | None = Field(None, description="External ID for reference")
+    trackConversion: bool | None = Field(None, description="Track conversions")
+    archived: bool | None = Field(None, description="Whether link is archived")
+    publicStats: bool | None = Field(None, description="Public stats page")
+    tagIds: list[str] | None = Field(None, description="Tag IDs to associate")
+    tagNames: list[str] | None = Field(None, description="Tag names to associate")
+    comments: str | None = Field(None, description="Comments for the link")
+    expiresAt: str | None = Field(None, description="Expiration date")
+    expiredUrl: str | None = Field(None, description="URL to redirect when expired")
+    password: str | None = Field(None, description="Password protection")
+    proxy: bool | None = Field(None, description="Enable link cloaking")
+    title: str | None = Field(None, description="Custom OG title")
+    description: str | None = Field(None, description="Custom OG description")
+    image: str | None = Field(None, description="Custom OG image")
+    video: str | None = Field(None, description="Custom OG video")
+    rewrite: bool | None = Field(None, description="Enable link rewriting")
+    ios: str | None = Field(None, description="iOS-specific redirect")
+    android: str | None = Field(None, description="Android-specific redirect")
+    geo: dict[str, str] | None = Field(None, description="Geo-targeting")
+    doIndex: bool | None = Field(None, description="Allow search indexing")
+    utm_source: str | None = Field(None, description="UTM source")
+    utm_medium: str | None = Field(None, description="UTM medium")
+    utm_campaign: str | None = Field(None, description="UTM campaign")
+    utm_term: str | None = Field(None, description="UTM term")
+    utm_content: str | None = Field(None, description="UTM content")
+
+    def to_api_dict(self) -> dict[str, Any]:
+        """Convert to dict for API, excluding None values."""
+        return {k: v for k, v in self.model_dump().items() if v is not None}
+
+
 class Link(BaseModel):
     """Model for a Dub.co link."""
 

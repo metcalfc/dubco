@@ -2,8 +2,8 @@
 
 from typing import Any
 
-from dubco_cli.api.client import DubClient, DubAPIError
-from dubco_cli.models.link import CreateLinkRequest, Link
+from dubco_cli.api.client import DubAPIError, DubClient
+from dubco_cli.models.link import CreateLinkRequest, Link, UpdateLinkRequest
 
 
 def create_link(client: DubClient, request: CreateLinkRequest) -> Link:
@@ -214,3 +214,55 @@ def bulk_delete_links(
                 all_errors.append({"linkId": link_id, "error": str(e)})
 
     return deleted_count, all_errors
+
+
+def update_link(client: DubClient, link_id: str, request: UpdateLinkRequest) -> Link:
+    """Update a single link by ID."""
+    response = client.patch(f"/links/{link_id}", json=request.to_api_dict())
+    return Link(**response)
+
+
+def bulk_update_links(
+    client: DubClient,
+    link_ids: list[str],
+    request: UpdateLinkRequest,
+) -> tuple[list[Link], list[dict[str, Any]]]:
+    """Update multiple links in bulk with the same changes.
+
+    Returns:
+        Tuple of (updated_links, errors)
+    """
+    BATCH_SIZE = 100
+
+    all_updated = []
+    all_errors = []
+
+    data = request.to_api_dict()
+
+    for i in range(0, len(link_ids), BATCH_SIZE):
+        batch = link_ids[i : i + BATCH_SIZE]
+
+        try:
+            response = client.patch(
+                "/links/bulk",
+                json={"linkIds": batch, "data": data},
+            )
+
+            if isinstance(response, list):
+                for item in response:
+                    try:
+                        all_updated.append(Link(**item))
+                    except Exception as e:
+                        all_errors.append({"data": item, "error": str(e)})
+            elif isinstance(response, dict) and "links" in response:
+                for item in response["links"]:
+                    try:
+                        all_updated.append(Link(**item))
+                    except Exception as e:
+                        all_errors.append({"data": item, "error": str(e)})
+
+        except DubAPIError as e:
+            for link_id in batch:
+                all_errors.append({"linkId": link_id, "error": str(e)})
+
+    return all_updated, all_errors

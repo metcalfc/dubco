@@ -120,6 +120,10 @@ class DubClient:
         """Make a DELETE request."""
         return self._request_with_retry("DELETE", url, params=params)
 
+    def patch(self, url: str, json: dict | None = None) -> dict[str, Any]:
+        """Make a PATCH request."""
+        return self._request_with_retry("PATCH", url, json=json)
+
     def close(self) -> None:
         """Close the HTTP client."""
         if self._client:

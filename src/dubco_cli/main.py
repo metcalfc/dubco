@@ -69,6 +69,12 @@ def _register_commands():
     except ImportError:
         pass
 
+    try:
+        from dubco_cli.commands import tui
+        app.command(name="tui")(tui.tui)
+    except ImportError:
+        pass
+
 
 _register_commands()
 
