@@ -31,7 +31,7 @@ def list_links(
     ] = 50,
     format: Annotated[
         str,
-        typer.Option("--format", "-o", help="Output format: table, json, csv"),
+        typer.Option("--format", "-o", help="Output format: table, json, csv, plain"),
     ] = "table",
     sort: Annotated[
         str,
@@ -49,9 +49,11 @@ def list_links(
         dub list -t marketing --format json
 
         dub list -s "campaign" --sort clicks
+
+        dub list -o plain | head -5
     """
-    if format not in ("table", "json", "csv"):
-        print_error(f"Invalid format: {format}. Use table, json, or csv.")
+    if format not in ("table", "json", "csv", "plain"):
+        print_error(f"Invalid format: {format}. Use table, json, csv, or plain.")
         raise typer.Exit(2)
 
     if sort not in ("createdAt", "clicks", "updatedAt"):
@@ -60,7 +62,18 @@ def list_links(
 
     try:
         with DubClient() as client:
-            with console.status("Fetching links..."):
+            # Only show spinner for interactive table output
+            if format == "table":
+                with console.status("Fetching links..."):
+                    links = list_all_links(
+                        client,
+                        domain=domain,
+                        tag_names=tag,
+                        search=search,
+                        sort=sort,
+                        limit=limit,
+                    )
+            else:
                 links = list_all_links(
                     client,
                     domain=domain,
@@ -72,7 +85,7 @@ def list_links(
 
             print_links(links, format=format)
 
-            if format == "table":
+            if format == "table" and links:
                 console.print(f"\n[dim]Showing {len(links)} links[/dim]")
 
     except DubAPIError as e:

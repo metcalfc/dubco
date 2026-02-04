@@ -72,6 +72,11 @@ def format_links_csv(links: list[Link]) -> str:
     return output.getvalue()
 
 
+def format_links_plain(links: list[Link]) -> str:
+    """Format links as plain text, one short link per line."""
+    return "\n".join(link.shortLink for link in links)
+
+
 def truncate(text: str, max_length: int) -> str:
     """Truncate text with ellipsis."""
     if len(text) <= max_length:
@@ -90,13 +95,16 @@ def print_link_created(link: Link) -> None:
 def print_links(links: list[Link], format: str = "table") -> None:
     """Print links in the specified format."""
     if not links:
-        console.print("[dim]No links found.[/dim]")
+        if format not in ("plain", "json", "csv"):
+            console.print("[dim]No links found.[/dim]")
         return
 
     if format == "json":
         print(format_links_json(links))
     elif format == "csv":
         print(format_links_csv(links))
+    elif format == "plain":
+        print(format_links_plain(links))
     else:
         table = format_link_table(links)
         console.print(table)
