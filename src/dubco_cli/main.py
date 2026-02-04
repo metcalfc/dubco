@@ -10,6 +10,7 @@ app = typer.Typer(
     name="dub",
     help="CLI for managing Dub.co short links",
     no_args_is_help=True,
+    context_settings={"help_option_names": ["-h", "--help"]},
 )
 console = Console()
 
