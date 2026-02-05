@@ -22,13 +22,13 @@ def bulk_create_links(
         Tuple of (created_links, errors)
     """
     # API limit is 100 per request
-    BATCH_SIZE = 100
+    batch_size = 100
 
     all_created = []
     all_errors = []
 
-    for i in range(0, len(requests), BATCH_SIZE):
-        batch = requests[i : i + BATCH_SIZE]
+    for i in range(0, len(requests), batch_size):
+        batch = requests[i : i + batch_size]
         batch_dicts = [r.to_api_dict() for r in batch]
 
         try:
@@ -198,13 +198,13 @@ def bulk_delete_links(
     Returns:
         Tuple of (deleted_count, errors)
     """
-    BATCH_SIZE = 100
+    batch_size = 100
 
     deleted_count = 0
     all_errors = []
 
-    for i in range(0, len(link_ids), BATCH_SIZE):
-        batch = link_ids[i : i + BATCH_SIZE]
+    for i in range(0, len(link_ids), batch_size):
+        batch = link_ids[i : i + batch_size]
 
         try:
             response = client.delete("/links/bulk", params={"linkIds": ",".join(batch)})
@@ -232,15 +232,15 @@ def bulk_update_links(
     Returns:
         Tuple of (updated_links, errors)
     """
-    BATCH_SIZE = 100
+    batch_size = 100
 
     all_updated = []
     all_errors = []
 
     data = request.to_api_dict()
 
-    for i in range(0, len(link_ids), BATCH_SIZE):
-        batch = link_ids[i : i + BATCH_SIZE]
+    for i in range(0, len(link_ids), batch_size):
+        batch = link_ids[i : i + batch_size]
 
         try:
             response = client.patch(
