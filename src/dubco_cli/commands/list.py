@@ -5,7 +5,7 @@ from typing import Annotated
 import typer
 from rich.console import Console
 
-from dubco_cli.api.client import DubClient, DubAPIError
+from dubco_cli.api.client import DubAPIError, DubClient
 from dubco_cli.api.links import list_all_links
 from dubco_cli.utils.output import print_error, print_links
 

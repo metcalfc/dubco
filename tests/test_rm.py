@@ -2,11 +2,9 @@
 
 from unittest.mock import MagicMock, patch
 
-import pytest
 from typer.testing import CliRunner
 
 from dubco_cli.main import app
-
 
 runner = CliRunner()
 

@@ -2,9 +2,7 @@
 
 import csv
 import json
-import sys
 from io import StringIO
-from typing import Any
 
 from rich.console import Console
 from rich.table import Table

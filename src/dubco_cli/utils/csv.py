@@ -7,7 +7,6 @@ from typing import TextIO
 
 from dubco_cli.models.link import CreateLinkRequest
 
-
 # Required and optional CSV columns
 REQUIRED_COLUMNS = ["url"]
 OPTIONAL_COLUMNS = [

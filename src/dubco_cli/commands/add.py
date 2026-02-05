@@ -7,8 +7,8 @@ import typer
 from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TextColumn
 
-from dubco_cli.api.client import DubClient, DubAPIError
-from dubco_cli.api.links import create_link, bulk_create_links
+from dubco_cli.api.client import DubAPIError, DubClient
+from dubco_cli.api.links import bulk_create_links, create_link
 from dubco_cli.models.link import CreateLinkRequest
 from dubco_cli.utils.csv import parse_csv, row_to_create_request
 from dubco_cli.utils.output import print_error, print_link_created, print_success

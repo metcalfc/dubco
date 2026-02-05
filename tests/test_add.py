@@ -1,15 +1,12 @@
 """Tests for the add command."""
 
-import json
 from unittest.mock import MagicMock, patch
 
-import pytest
 from typer.testing import CliRunner
 
 from dubco_cli.main import app
 from dubco_cli.models.link import CreateLinkRequest
 from dubco_cli.utils.utm import extract_utm_from_url, merge_utm_params
-
 
 runner = CliRunner()
 

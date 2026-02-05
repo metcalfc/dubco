@@ -7,7 +7,7 @@ import typer
 from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TextColumn
 
-from dubco_cli.api.client import DubClient, DubAPIError
+from dubco_cli.api.client import DubAPIError, DubClient
 from dubco_cli.api.links import bulk_delete_links, delete_link, get_link
 from dubco_cli.utils.output import print_error, print_success, print_warning
 

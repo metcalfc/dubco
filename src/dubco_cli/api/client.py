@@ -7,7 +7,7 @@ import httpx
 from rich.console import Console
 
 from dubco_cli.api.oauth import ensure_valid_token
-from dubco_cli.config import get_client_id, load_credentials
+from dubco_cli.config import get_client_id
 
 console = Console()
 
