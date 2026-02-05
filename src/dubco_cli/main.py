@@ -47,12 +47,14 @@ def _register_commands():
     """Register all command modules."""
     try:
         from dubco_cli.commands import add
+
         app.command(name="add")(add.add)
     except ImportError:
         pass
 
     try:
         from dubco_cli.commands import list as list_cmd
+
         app.command(name="list")(list_cmd.list_links)
         app.command(name="ls")(list_cmd.list_links)  # Alias
     except ImportError:
@@ -60,18 +62,21 @@ def _register_commands():
 
     try:
         from dubco_cli.commands import rm
+
         app.command(name="rm")(rm.rm)
     except ImportError:
         pass
 
     try:
         from dubco_cli.commands import stats
+
         app.command(name="stats")(stats.stats)
     except ImportError:
         pass
 
     try:
         from dubco_cli.commands import tui
+
         app.command(name="tui")(tui.tui)
     except ImportError:
         pass

@@ -88,9 +88,7 @@ class DubClient:
 
         return response.json()
 
-    def _request_with_retry(
-        self, method: str, url: str, **kwargs
-    ) -> dict[str, Any]:
+    def _request_with_retry(self, method: str, url: str, **kwargs) -> dict[str, Any]:
         """Make a request with automatic retry on rate limits."""
         client = self._get_client()
 

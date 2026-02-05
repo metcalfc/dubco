@@ -55,11 +55,13 @@ def bulk_create_links(
         except DubAPIError as e:
             # Track which batch failed
             for j, req in enumerate(batch):
-                all_errors.append({
-                    "row": i + j + 1,
-                    "url": req.url,
-                    "error": str(e),
-                })
+                all_errors.append(
+                    {
+                        "row": i + j + 1,
+                        "url": req.url,
+                        "error": str(e),
+                    }
+                )
 
     return all_created, all_errors
 

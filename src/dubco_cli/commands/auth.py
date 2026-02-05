@@ -1,6 +1,5 @@
 """Authentication commands for dubco-cli."""
 
-
 import typer
 from rich.console import Console
 from rich.panel import Panel

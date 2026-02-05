@@ -248,9 +248,7 @@ def ensure_valid_token(client_id: str) -> Credentials:
             save_credentials(credentials)
         except httpx.HTTPStatusError as e:
             if e.response.status_code == 401:
-                raise RuntimeError(
-                    "Session expired. Please run 'dub login' again."
-                ) from e
+                raise RuntimeError("Session expired. Please run 'dub login' again.") from e
             raise
 
     return credentials

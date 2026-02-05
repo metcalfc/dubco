@@ -23,9 +23,7 @@ class TestRmCommand:
     @patch("dubco_cli.commands.rm.get_link")
     @patch("dubco_cli.config.get_client_id")
     @patch("dubco_cli.config.load_credentials")
-    def test_rm_not_found(
-        self, mock_creds, mock_client_id, mock_get_link, mock_client_cls
-    ):
+    def test_rm_not_found(self, mock_creds, mock_client_id, mock_get_link, mock_client_cls):
         """Should error when link is not found."""
         mock_client_id.return_value = "test_client_id"
         mock_creds.return_value = MagicMock(
@@ -72,6 +70,7 @@ class TestRmCommand:
         mock_client_cls.return_value = mock_client
 
         from dubco_cli.models.link import Link
+
         mock_get_link.return_value = Link(**sample_link_response)
         mock_delete.return_value = True
 

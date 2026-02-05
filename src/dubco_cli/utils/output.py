@@ -57,15 +57,17 @@ def format_links_csv(links: list[Link]) -> str:
     # Rows
     for link in links:
         tags = ",".join(link.tag_names) if link.tag_names else ""
-        writer.writerow([
-            link.shortLink,
-            link.url,
-            link.key,
-            link.domain,
-            link.clicks,
-            tags,
-            link.createdAt,
-        ])
+        writer.writerow(
+            [
+                link.shortLink,
+                link.url,
+                link.key,
+                link.domain,
+                link.clicks,
+                tags,
+                link.createdAt,
+            ]
+        )
 
     return output.getvalue()
 
