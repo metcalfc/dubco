@@ -82,13 +82,13 @@ class OAuthCallbackHandler(http.server.BaseHTTPRequestHandler):
             self.end_headers()
 
             if self.callback_data.error:
-                html = """
+                html = f"""
                 <html><body style="font-family: system-ui; text-align: center; padding: 50px;">
                 <h1>Authentication Failed</h1>
-                <p>Error: {error}</p>
+                <p>Error: {self.callback_data.error}</p>
                 <p>You can close this window.</p>
                 </body></html>
-                """.format(error=self.callback_data.error)
+                """
             else:
                 html = """
                 <html><body style="font-family: system-ui; text-align: center; padding: 50px;">
@@ -181,7 +181,7 @@ class OAuthFlow:
 
             # Open browser
             auth_url = self.get_authorization_url(state, code_challenge)
-            console.print(f"\nOpening browser for authentication...")
+            console.print("\nOpening browser for authentication...")
             console.print(f"If browser doesn't open, visit: {auth_url}\n")
             webbrowser.open(auth_url)
 
@@ -237,12 +237,13 @@ def ensure_valid_token(client_id: str) -> Credentials:
             token_data = flow.refresh_tokens(credentials.refresh_token)
             user_info = flow.get_user_info(token_data["access_token"])
 
+            workspace = user_info.get("workspace", {})
             credentials = Credentials(
                 access_token=token_data["access_token"],
                 refresh_token=token_data["refresh_token"],
                 expires_at=int(time.time()) + token_data.get("expires_in", 7200),
-                workspace_id=user_info.get("workspace", {}).get("id", credentials.workspace_id),
-                workspace_name=user_info.get("workspace", {}).get("name", credentials.workspace_name),
+                workspace_id=workspace.get("id", credentials.workspace_id),
+                workspace_name=workspace.get("name", credentials.workspace_name),
             )
             save_credentials(credentials)
         except httpx.HTTPStatusError as e:
